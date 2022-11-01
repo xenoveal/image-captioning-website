@@ -1,7 +1,22 @@
 {% extends "base.html" %}
 {% block body %}
-    <p>{{sentence}}</p>
-    <iframe src="static/text2speech.mp3" allow="autoplay" id="audio"></iframe>
-    <br>
-    <img src="{{ img_path }}" alt="image"></img>
+
+    <div id="tapable" class="tapable"></div>
+    <div class="content">
+        <form id="form" class="form" action="/upload" method="post" enctype="multipart/form-data">
+            <input id="file-upload" type="file" name="file" accept="image/png, image/jpeg, image/jpg">
+            <!-- <button type="submit">Submit</button> -->
+        </form>
+        <div class="image">
+            <img src="static/assets/book-reader-icon.svg" alt="icon" class="reader-icon">
+            {% if img_path %}
+            <img src="{{ img_path }}" alt="image"></img>
+            <audio src="static/text2speech.mp3" preload="auto" id="audio" hidden></audio>
+            {% else %}
+            <audio src="static/tutorial-speech.mp3" preload="auto" id="audio" hidden></audio>
+            {% endif %}
+        </div>
+        <p>{{sentence}}</p>
+
+    </div>
 {% endblock %}

@@ -2,10 +2,95 @@
 <html>
     <head>
         <title>Image Captioning</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com"> 
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
     </head>
+    <style>
+        body, html{
+            margin: 0;
+            background-color: #002123;
+        }
+        .content-wrapper{
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .content{
+            text-align: center;
+        }
+        .image{
+            width: 90vw;
+            height: 50vh;
+            background: #205D61;
+            border-radius: 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 100px;
+        }
+        img{
+            width: 90vw;
+            height: 50vh;
+            object-fit: cover;
+            object-position: center; /* Center the image within the element */
+            border-radius: 20px;
+            
+        }
+        .form{
+            position: absolute;
+            left: -100vw;
+        }
+        .tapable{
+            position: absolute;
+            width: 100vw;
+            min-height: 100vh;
+            /* background-color: red; */
+            z-index: 2;
+        }
+        .reader-icon{
+            position: absolute;
+            z-index: 1;
+            height: 50%;
+            width: auto;
+        }
+
+        p{
+            color: #F4FEFF;
+            font-family: 'Poppins', sans-serif;
+            margin: 20px 0 20px 0;
+            font-size: 24px;
+        }
+    </style>
+    
     <body>
-        <div id="content">
+        <div class="content-wrapper">
             {% block body %}{% endblock %}
         </div>
+        <script>
+            const tapable = document.getElementById('tapable')
+            let action_triggered = false
+            tapable.addEventListener('click', ()=>{
+                setTimeout(()=>{
+                    if(!action_triggered)
+                    document.getElementById("audio").play()
+                }, 300)
+            })
+            tapable.addEventListener('dblclick', ()=>{
+                action_triggered = true
+                document.getElementById("file-upload").click()
+                setTimeout(()=>{
+                    action_triggered = false
+                }, 500)
+            })
+            document.getElementById("file-upload").onchange = ()=>{
+                document.getElementById("form").submit();
+            };
+        </script>
     </body>
 </html>
