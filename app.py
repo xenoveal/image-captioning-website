@@ -1,4 +1,3 @@
-from crypt import methods
 import random
 import string
 from flask import render_template, Flask, flash, request, redirect, url_for
@@ -7,6 +6,7 @@ import argparse
 from gtts import gTTS
 from werkzeug.utils import secure_filename
 import os
+import requests
 
 MYDIR = os.path.dirname(__file__)
 UPLOAD_FOLDER = 'static/upload'
@@ -20,13 +20,29 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def download_data():
+    if(not os.path.exists("data")):
+        os.mkdir("data")
+    if(not os.path.exists("data/vocab.pkl")):
+        response = requests.get("https://drive.google.com/uc?export=download&id=1M8biyGJEstcNKeO_ntpCH_qsW2k20BsT")
+        open("data/vocab.pkl", "wb").write(response.content)
+    if(not os.path.exists("models")):
+        os.mkdir("models")
+    if(not os.path.exists("models/decoder-5-3000.pkl")):
+        response = requests.get("https://drive.google.com/uc?export=download&id=1thzppU7agKTL0yWqm1jBlGj6Gc8I4SUZ")
+        open("models/decoder-5-3000.pkl", "wb").write(response.content)
+    if(not os.path.exists("models/encoder-5-3000.pkl")):
+        response = requests.get("https://drive.google.com/uc?export=download&id=14PxYQ0GIO2_5BYVfmDhnnyP4ALSoBcti")
+        open("models/encoder-5-3000.pkl", "wb").write(response.content)
+
 @app.route("/")
 @app.route("/<string:img>")
 def index(img=None):
+    download_data()
     if(img):
         img = img.split("-")
-        img_path = f"{MYDIR}/{app.config['UPLOAD_FOLDER']}/{img[1]}.{img[0]}"
-        args = argparse.Namespace(image=img_path, encoder_path='models/encoder-5-3000.pkl', decoder_path='models/decoder-5-3000.pkl', vocab_path='data/vocab.pkl', embed_size=256, hidden_size=512, num_layers=1)
+        img_path = f"{app.config['UPLOAD_FOLDER']}/{img[1]}.{img[0]}"
+        args = argparse.Namespace(image=os.path.join(MYDIR, img_path), encoder_path='models/encoder-5-3000.pkl', decoder_path='models/decoder-5-3000.pkl', vocab_path='data/vocab.pkl', embed_size=256, hidden_size=512, num_layers=1)
         sentence = main(args=args)
         sentence_to_read = sentence.split("<start> ")[1].split(" <end>")[0]
         myobj = gTTS(text=sentence_to_read, lang='en', slow=False)

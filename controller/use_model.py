@@ -2,7 +2,6 @@ import torch
 import argparse
 import pickle 
 from torchvision import transforms 
-from controller.build_vocab import Vocabulary
 from controller.model import EncoderCNN, DecoderRNN
 from PIL import Image
 
@@ -61,7 +60,7 @@ def main(args):
     sentence = ' '.join(sampled_caption)
     
     # Print out the image and the generated caption
-    print (sentence)
+    # print (sentence)
     return sentence
     # image = Image.open(args.image)
     # plt.imshow(np.asarray(image))
