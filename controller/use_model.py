@@ -1,9 +1,6 @@
 import torch
-import matplotlib.pyplot as plt
-import numpy as np 
 import argparse
 import pickle 
-import os
 from torchvision import transforms 
 from controller.build_vocab import Vocabulary
 from controller.model import EncoderCNN, DecoderRNN
