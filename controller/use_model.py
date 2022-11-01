@@ -1,4 +1,4 @@
-from controller.build_vocab import Vocabulary
+# from controller.build_vocab import Vocabulary
 import torch
 import argparse
 import pickle 
@@ -11,6 +11,27 @@ from PIL import Image
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # device = "mps" if torch.backends.mps.is_available() else "cpu"
 device = "cpu"
+
+class Vocabulary(object):
+    """Simple vocabulary wrapper."""
+    def __init__(self):
+        self.word2idx = {}
+        self.idx2word = {}
+        self.idx = 0
+
+    def add_word(self, word):
+        if not word in self.word2idx:
+            self.word2idx[word] = self.idx
+            self.idx2word[self.idx] = word
+            self.idx += 1
+
+    def __call__(self, word):
+        if not word in self.word2idx:
+            return self.word2idx['<unk>']
+        return self.word2idx[word]
+
+    def __len__(self):
+        return len(self.word2idx)
 
 def load_image(image_path, transform=None):
     image = Image.open(image_path).convert('RGB')
