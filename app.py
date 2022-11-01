@@ -8,8 +8,9 @@ from werkzeug.utils import secure_filename
 import os
 import requests
 
-MYDIR = os.path.dirname(__file__)
-UPLOAD_FOLDER = 'static/upload'
+# MYDIR = os.path.dirname(__file__)
+# UPLOAD_FOLDER = 'static/upload'
+UPLOAD_FOLDER = '/tmp'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__, static_url_path='/static')
@@ -42,7 +43,7 @@ def index(img=None):
     if(img):
         img = img.split("-")
         img_path = f"{app.config['UPLOAD_FOLDER']}/{img[1]}.{img[0]}"
-        args = argparse.Namespace(image=os.path.join(MYDIR, img_path), encoder_path='models/encoder-5-3000.pkl', decoder_path='models/decoder-5-3000.pkl', vocab_path='data/vocab.pkl', embed_size=256, hidden_size=512, num_layers=1)
+        args = argparse.Namespace(image=img_path, encoder_path='models/encoder-5-3000.pkl', decoder_path='models/decoder-5-3000.pkl', vocab_path='data/vocab.pkl', embed_size=256, hidden_size=512, num_layers=1)
         sentence = main(args=args)
         sentence_to_read = sentence.split("<start> ")[1].split(" <end>")[0]
         myobj = gTTS(text=sentence_to_read, lang='en', slow=False)
