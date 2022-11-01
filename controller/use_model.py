@@ -9,7 +9,8 @@ from PIL import Image
 
 # Device configuration
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-device = "mps" if torch.backends.mps.is_available() else "cpu"
+# device = "mps" if torch.backends.mps.is_available() else "cpu"
+device = "cpu"
 
 def load_image(image_path, transform=None):
     image = Image.open(image_path).convert('RGB')
