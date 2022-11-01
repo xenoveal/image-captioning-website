@@ -1,4 +1,3 @@
-from controller.build_vocab import Vocabulary
 import torch
 import argparse
 import pickle 
@@ -12,6 +11,15 @@ from PIL import Image
 # device = "mps" if torch.backends.mps.is_available() else "cpu"
 device = "cpu"
 
+def load_image(image_path, transform=None):
+    image = Image.open(image_path).convert('RGB')
+    image = image.resize([224, 224], Image.Resampling.LANCZOS)
+    
+    if transform is not None:
+        image = transform(image).unsqueeze(0)
+    
+    return image
+
 def main(args):
     # Image preprocessing
     transform = transforms.Compose([
@@ -20,7 +28,6 @@ def main(args):
                              (0.229, 0.224, 0.225))])
     
     # Load vocabulary wrapper
-    Vocabulary.__module__ = "controller.build_vocab"
     with open(args.vocab_path, 'rb') as f:
         vocab = pickle.load(f)
 

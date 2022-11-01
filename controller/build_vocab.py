@@ -1,6 +1,6 @@
 import nltk
 # nltk.download('punkt')
-import pickle
+import dill as pickle
 import argparse
 from collections import Counter
 from pycocotools.coco import COCO
