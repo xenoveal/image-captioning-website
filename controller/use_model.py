@@ -2,6 +2,7 @@ import torch
 import argparse
 import pickle 
 from torchvision import transforms 
+from controller.build_vocab import Vocabulary
 from controller.model import EncoderCNN, DecoderRNN
 from PIL import Image
 

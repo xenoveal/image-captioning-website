@@ -5,7 +5,6 @@ import argparse
 from collections import Counter
 from pycocotools.coco import COCO
 
-
 class Vocabulary(object):
     """Simple vocabulary wrapper."""
     def __init__(self):
