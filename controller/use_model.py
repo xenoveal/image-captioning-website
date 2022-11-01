@@ -1,4 +1,4 @@
-# from controller.build_vocab import Vocabulary
+from controller.build_vocab import Vocabulary
 import torch
 import argparse
 import pickle 
