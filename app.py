@@ -69,7 +69,7 @@ def upload_file():
             extension = secure_filename(file.filename).split('.')[-1]
             img_name = ''.join(random.choices(string.ascii_letters + string.digits, k=20))
             img_path = f"{app.config['UPLOAD_FOLDER']}/{img_name}.{extension}"
-            file.save(os.path.join(MYDIR,img_path))
+            file.save(img_path)
             return redirect(url_for('index', img=f"{extension}-{img_name}"))
         return redirect('/')
     else:
