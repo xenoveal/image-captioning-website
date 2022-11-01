@@ -8,6 +8,7 @@ from gtts import gTTS
 from werkzeug.utils import secure_filename
 import os
 
+MYDIR = os.path.dirname(__file__)
 UPLOAD_FOLDER = 'static/upload'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -24,8 +25,7 @@ def allowed_file(filename):
 def index(img=None):
     if(img):
         img = img.split("-")
-        img_path = f"{app.config['UPLOAD_FOLDER']}/{img[1]}.{img[0]}"
-        print(img_path)
+        img_path = f"{MYDIR}/{app.config['UPLOAD_FOLDER']}/{img[1]}.{img[0]}"
         args = argparse.Namespace(image=img_path, encoder_path='models/encoder-5-3000.pkl', decoder_path='models/decoder-5-3000.pkl', vocab_path='data/vocab.pkl', embed_size=256, hidden_size=512, num_layers=1)
         sentence = main(args=args)
         sentence_to_read = sentence.split("<start> ")[1].split(" <end>")[0]
@@ -53,7 +53,7 @@ def upload_file():
             extension = secure_filename(file.filename).split('.')[-1]
             img_name = ''.join(random.choices(string.ascii_letters + string.digits, k=20))
             img_path = f"{app.config['UPLOAD_FOLDER']}/{img_name}.{extension}"
-            file.save(os.path.join(img_path))
+            file.save(os.path.join(MYDIR,img_path))
             return redirect(url_for('index', img=f"{extension}-{img_name}"))
         return redirect('/')
     else:
