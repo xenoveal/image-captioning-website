@@ -57,6 +57,7 @@ def build_vocab(json, threshold):
 def main(args):
     vocab = build_vocab(json=args.caption_path, threshold=args.threshold)
     vocab_path = args.vocab_path
+    Vocabulary.__module__
     with open(vocab_path, 'wb') as f:
         pickle.dump(vocab, f)
     print("Total vocabulary size: {}".format(len(vocab)))

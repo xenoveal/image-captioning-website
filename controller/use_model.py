@@ -12,36 +12,6 @@ from PIL import Image
 # device = "mps" if torch.backends.mps.is_available() else "cpu"
 device = "cpu"
 
-class Vocabulary(object):
-    """Simple vocabulary wrapper."""
-    def __init__(self):
-        self.word2idx = {}
-        self.idx2word = {}
-        self.idx = 0
-
-    def add_word(self, word):
-        if not word in self.word2idx:
-            self.word2idx[word] = self.idx
-            self.idx2word[self.idx] = word
-            self.idx += 1
-
-    def __call__(self, word):
-        if not word in self.word2idx:
-            return self.word2idx['<unk>']
-        return self.word2idx[word]
-
-    def __len__(self):
-        return len(self.word2idx)
-
-def load_image(image_path, transform=None):
-    image = Image.open(image_path).convert('RGB')
-    image = image.resize([224, 224], Image.Resampling.LANCZOS)
-    
-    if transform is not None:
-        image = transform(image).unsqueeze(0)
-    
-    return image
-
 def main(args):
     # Image preprocessing
     transform = transforms.Compose([
@@ -50,6 +20,7 @@ def main(args):
                              (0.229, 0.224, 0.225))])
     
     # Load vocabulary wrapper
+    Vocabulary.__module__ = "controller.build_vocab"
     with open(args.vocab_path, 'rb') as f:
         vocab = pickle.load(f)
 
