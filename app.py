@@ -1,6 +1,7 @@
 import random
 import string
 from flask import render_template, Flask, flash, request, redirect, url_for
+from controller.vocabulary import Vocabulary
 from controller.use_model import main 
 import argparse
 from gtts import gTTS
