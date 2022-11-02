@@ -4,7 +4,6 @@ import pickle
 from torchvision import transforms 
 from controller.model import EncoderCNN, DecoderRNN
 from PIL import Image
-import builtins as __builtin__
 
 
 # Device configuration
