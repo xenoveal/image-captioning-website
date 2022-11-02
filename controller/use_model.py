@@ -4,7 +4,7 @@ import pickle
 from torchvision import transforms 
 from controller.model import EncoderCNN, DecoderRNN
 from PIL import Image
-from vocabulary import Vocabulary
+from controller.vocabulary import Vocabulary
 
 
 # Device configuration
